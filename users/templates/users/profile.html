@@ -3,16 +3,25 @@
 {% block content %}
     <div class="content-section">
         <div class="media">
-            {% if user.profile_picture %}
-                <img class="rounded-circle account-img" src="{{ user.profile_picture.url }}">
-            {% comment %} {% else %}
-                <img class="rounded-circle account-img" src="/media/default.jpeg">
-            {% endif %} {% endcomment %}
-                <div class="media-body">
-                    <h2 class="account-heading">{{ user.username }}</h2>
-                    <p class="text-secondary">{{ user.email }}</p>
-                </div>
+            {% comment %} user.profile.image.url {% endcomment %}
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
         </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Profile Info</legend>
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
     </div>
 {% endblock content %}
+
 
